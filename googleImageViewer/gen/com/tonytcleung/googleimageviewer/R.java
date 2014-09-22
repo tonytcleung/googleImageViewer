@@ -54,8 +54,6 @@ public final class R {
     public static final class menu {
         public static final int image_display=0x7f070000;
         public static final int menu_setting=0x7f070001;
-        public static final int search=0x7f070002;
-        public static final int settings=0x7f070003;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;

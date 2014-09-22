@@ -17,11 +17,11 @@ public class ImageDisplayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_display);
 		// pull out the imageResult from the intent
-		ImageResult imageResult		= (ImageResult) getIntent().getParcelableExtra(SearchActivity.INTENT_KEY);
+		ImageResult imageResult		= (ImageResult) getIntent().getParcelableExtra(SearchActivity.INTENT_IMAGE_RESULT);
 		// find the image view
 		ImageView ivImageResult	= (ImageView) findViewById(R.id.ivImageResult);
 		// load the image url into the imageview using picasso
-		Picasso.with(this).load(imageResult.thumbURL).into(ivImageResult);
+		Picasso.with(this).load(imageResult.fullURL).into(ivImageResult);
 	}
 
 	@Override

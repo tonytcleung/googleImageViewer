@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ImageResult  implements Parcelable {
+public class ImageResult implements Parcelable {
 	
 	public String	title;
 	public String	fullURL;

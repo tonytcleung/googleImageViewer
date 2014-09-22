@@ -87,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvSiteFilter"
         android:layout_alignLeft="@+id/spColorFilter"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/spColorFilter" />
 
     <EditText
@@ -96,7 +97,8 @@
         android:layout_alignBottom="@+id/tvSiteFilter"
         android:layout_alignLeft="@+id/spImageType"
         android:layout_below="@+id/spImageType"
-        android:ems="10" >
+        android:ems="10"
+        android:hint="@string/settings_site_filter_hint" >
 
         <requestFocus />
     </EditText>
@@ -108,6 +110,7 @@
         android:layout_below="@+id/etSiteFilter"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/settings_save_button_title" />
+        android:text="@string/settings_save_button_title" 
+        android:onClick="saveSettings"/>
 
 </RelativeLayout>
