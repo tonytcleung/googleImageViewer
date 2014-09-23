@@ -11,4 +11,4 @@ Completed user stories:
 * Infinite scrolling
 
 
-![](https://github.com/tonytcleung/googleImageViewer/tree/master/googleImageViewer.gif)
+![](https://github.com/tonytcleung/googleImageViewer/blob/master/GoogleImageSearch.gif)
