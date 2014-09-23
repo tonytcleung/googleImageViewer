@@ -23,7 +23,7 @@ public class ImageDisplayActivity extends Activity {
 		// load the image url into the imageview using picasso
 		Picasso.with(this).load(imageResult.fullURL).into(ivImageResult);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

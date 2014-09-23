@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -112,8 +111,7 @@ public class SearchActivity extends Activity {
 	 * @param page	- the page number that the search begins at
 	 */
 	private void performImageSearch(int page) {
-		Toast.makeText(this, "search more " + page, Toast.LENGTH_SHORT).show();
-		
+		// grab the search query
 		String query						= etQuery.getText().toString();
      	
         AsyncHttpClient client				= new AsyncHttpClient();
@@ -162,7 +160,7 @@ public class SearchActivity extends Activity {
      * @param view - the view that initiated the call
      */
     public void onImageSearch(View view) {
-		aImageResults.clear(); // clear on new search, do not clear on paging
+		aImageResults.clear(); // clear on new search
      	performImageSearch(0);
     }
     
