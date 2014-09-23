@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    tools:context="com.tonytcleung.googleimageviewer.activities.ImageDisplayActivity" >
 
     <ImageView
         android:id="@+id/ivImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:contentDescription="@string/image_content_description"
         android:scaleType="fitXY"
@@ -17,8 +20,12 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/image_title_label" 
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/ivImage"
+        android:layout_below="@+id/ivImage"
+        android:gravity="center"
+        android:ellipsize="end"
         android:maxLines="2"
-        android:ellipsize="end"/>
+        android:text="@string/image_title_label" />
 
-</LinearLayout>
+</RelativeLayout>

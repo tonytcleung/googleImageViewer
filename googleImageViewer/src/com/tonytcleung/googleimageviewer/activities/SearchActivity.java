@@ -24,6 +24,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tonytcleung.googleimageviewer.R;
 import com.tonytcleung.googleimageviewer.adapters.ImageResultAdapter;
+import com.tonytcleung.googleimageviewer.listeners.EndlessScrollListener;
 import com.tonytcleung.googleimageviewer.models.ImageResult;
 import com.tonytcleung.googleimageviewer.models.SearchSettings;
 
@@ -41,6 +42,10 @@ public class SearchActivity extends Activity {
 	private static final String GOOGLE_COLOR_FILTER_PARAM		= 	"&imgcolor=";
 	private static final String GOOGLE_IMAGE_TYPE_PARAM			= 	"&imgtype=";
 	private static final String GOOGLE_SITE_FILTER_PARAM		= 	"&as_sitesearch=";
+	private static final String GOOGLE_PAGE_PARAM				= 	"&start=";
+	
+	// number of cells that are not visible before kicking off server
+	private static final int ENDLESS_SCROLL_VISIBLE_THRESHHOLD	=	1;
 	
 	private EditText 				etQuery;
 	private GridView				gvResults;
@@ -60,6 +65,7 @@ public class SearchActivity extends Activity {
         // link adapter to arraylist and imageview
         aImageResults	= new ImageResultAdapter(this, imageResults);
         gvResults.setAdapter(aImageResults);
+
     }
 
     /**
@@ -68,6 +74,7 @@ public class SearchActivity extends Activity {
     private void setupViews() {
     	etQuery		= (EditText) findViewById(R.id.etQuerry);
     	gvResults	= (GridView) findViewById(R.id.gvResults);
+    	// set click listener
     	gvResults.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,7 +87,14 @@ public class SearchActivity extends Activity {
 				intent.putExtra(INTENT_IMAGE_RESULT, imageResult);
 				// launch the new activity
 				startActivity(intent);
-				
+			}
+		});
+    	// set scroll listener
+        // add on scroll listenter for endless scroll with threshhold
+        gvResults.setOnScrollListener(new EndlessScrollListener(ENDLESS_SCROLL_VISIBLE_THRESHHOLD) {
+			@Override
+			public void onLoadMore(int page, int totalItemsCount) {
+				performImageSearch(page);
 			}
 		});
 	}
@@ -92,16 +106,19 @@ public class SearchActivity extends Activity {
         return true;
     }
     
-
-    /**
-     * when the button is clicked perform a search
-     * @param view
-     */
-    public void onImageSearch(View view) {
-     	String query						= etQuery.getText().toString();
+	/**
+	 * perform a search with the given query and page
+	 * @param query	- the text query to be performed
+	 * @param page	- the page number that the search begins at
+	 */
+	private void performImageSearch(int page) {
+		Toast.makeText(this, "search more " + page, Toast.LENGTH_SHORT).show();
+		
+		String query						= etQuery.getText().toString();
      	
         AsyncHttpClient client				= new AsyncHttpClient();
-        String searchURL					= GOOGLE_IMAGE_SEARCH_URL + query;
+        // generate the search URL with the proper page index
+        String searchURL					= GOOGLE_IMAGE_SEARCH_URL + query + GOOGLE_PAGE_PARAM + page*GOOGLE_IMAGE_SEARCH_URL_PAGE_SIZE;
         
         // if there is image size, apply to url
         if (settings.hasImageSizeFilter()) {
@@ -130,7 +147,6 @@ public class SearchActivity extends Activity {
  				try {
 					imageResultsJson		= response.getJSONObject("responseData").getJSONArray("results");
 					// when you update the adapter, it will modify the underlying data
-					aImageResults.clear(); // clear on new search, do not clear on paging
 					aImageResults.addAll(ImageResult.ImageResultsArrayList(imageResultsJson));
 					
 				} catch (JSONException e) {
@@ -139,8 +155,17 @@ public class SearchActivity extends Activity {
 				Log.d("DEBUG", imageResults.toString());	
 			}
         });
+	}
+	
+    /**
+     * when the button is clicked perform a search
+     * @param view - the view that initiated the call
+     */
+    public void onImageSearch(View view) {
+		aImageResults.clear(); // clear on new search, do not clear on paging
+     	performImageSearch(0);
     }
-
+    
     /**
      * show the settings activity
      */
